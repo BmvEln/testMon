@@ -1,0 +1,39 @@
+.TestItem {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 397px 104px 90px 160px 1fr;
+  column-gap: 20px;
+  background-color: #fff;
+
+  height: 70px;
+  align-items: center;
+  transition: box-shadow 0.2s;
+  padding: 0 11px;
+
+  > div:nth-child(1) {
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 500;
+    color: #474747;
+  }
+
+  > div:nth-child(3) {
+    font-weight: 500;
+  }
+
+  > div:nth-child(2),
+  > div:nth-child(4) {
+    font-size: 12px;
+    line-height: 12px;
+    color: #5c5c5c;
+  }
+
+  border-left: 4px solid red;
+  box-sizing: border-box;
+  border-radius: 3px;
+  margin-bottom: 5px;
+
+  &:hover {
+    box-shadow: 0 0 10px 1px rgba(34, 60, 80, 0.15);
+  }
+}
