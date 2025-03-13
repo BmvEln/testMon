@@ -6,7 +6,7 @@ import { clearUrl } from "../../functions.ts";
 import { Site, TestPT } from "../../../types.ts";
 
 function getDomainThirdLevel(str: string) {
-  return str.split(".")[0];
+  return str.split(".")[0] as keyof typeof SITE_COLOR;
 }
 
 type TestItemProps = TestPT & {

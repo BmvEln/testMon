@@ -18,7 +18,7 @@ const POS_HEADER_TABLE: { [key: string]: number } = {
 
 // DESC (убывание) (↓) - от большего к меньшему - добавляется знак "-"
 // ASC (возрастание) (↑) - от меньшего к большему
-const TYPES_SORTS = [
+const TYPES_SORTS: { name: string; sort: string }[] = [
   { name: "Name", sort: "name" },
   { name: "Type", sort: "type" },
   { name: "Status", sort: "status" },
@@ -30,7 +30,7 @@ function Dashboard() {
     // Из-за этого происходит повторный ререндер?
     [sortedTests, setSortedTests] = useState(tests),
     [search, setSearch] = useState(""),
-    filterBySearchTests = (sortedTests as TestPT[]).filter((test: TestPT) =>
+    filterBySearchTests = sortedTests.filter((test: TestPT) =>
       test.name.toLowerCase().includes(search.toLowerCase()),
     ),
     [sortProperty, setSortProperty] = useState(TYPES_SORTS[0].sort),
@@ -41,7 +41,7 @@ function Dashboard() {
       ? [sortProperty.slice(1), "desc"]
       : [sortProperty, "asc"];
 
-    const sortByStatus = (a: TestPT, b: TestPT) => {
+    function sortByStatus(a: TestPT, b: TestPT) {
       const vA = VARIANTS_STATUSES[a.status].order;
       const vB = VARIANTS_STATUSES[b.status].order;
 
@@ -51,25 +51,25 @@ function Dashboard() {
       // a > b --- a, b
       if (vA > vB) return order === "desc" ? -1 : 1;
       return 0;
-    };
+    }
 
-    const sortBySiteId = (a, b) => {
-      const vA = clearUrl(sites[a[sortBy] - 1].url).toLowerCase();
-      const vB = clearUrl(sites[b[sortBy] - 1].url).toLowerCase();
-
-      if (vA < vB) return order === "desc" ? 1 : -1;
-      if (vA > vB) return order === "desc" ? -1 : 1;
-      return 0;
-    };
-
-    const sortByProperty = (a, b) => {
-      const vA = a[`${sortBy}`].toLowerCase();
-      const vB = b[`${sortBy}`].toLowerCase();
+    function sortBySiteId(a: TestPT, b: TestPT) {
+      const vA = clearUrl(sites[a.siteId - 1].url).toLowerCase();
+      const vB = clearUrl(sites[b.siteId - 1].url).toLowerCase();
 
       if (vA < vB) return order === "desc" ? 1 : -1;
       if (vA > vB) return order === "desc" ? -1 : 1;
       return 0;
-    };
+    }
+
+    function sortByProperty(a: TestPT, b: TestPT) {
+      const vA = String(a[`${sortBy as keyof TestPT}`]).toLowerCase();
+      const vB = String(b[`${sortBy as keyof TestPT}`]).toLowerCase();
+
+      if (vA < vB) return order === "desc" ? 1 : -1;
+      if (vA > vB) return order === "desc" ? -1 : 1;
+      return 0;
+    }
 
     let sorted;
     if (sortBy === "status") {

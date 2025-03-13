@@ -3,8 +3,9 @@ import axios from "axios";
 import { setTests } from "../redux/slices/testsSlice.tsx";
 import { setSites } from "../redux/slices/sitesSlice.tsx";
 import { RootState, useAppDispatch, useAppSelector } from "../redux/store.tsx";
+import { Site, TestPT } from "../types.ts";
 
-export function useFetchData() {
+export function useFetchData(): [TestPT[], Site[]] {
   const dispatch = useAppDispatch();
   const { tests } = useAppSelector((state: RootState) => state.tests);
   const { sites } = useAppSelector((state: RootState) => state.sites);
